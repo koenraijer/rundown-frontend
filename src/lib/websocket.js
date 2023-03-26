@@ -2,6 +2,9 @@ import { persist } from '$lib/customStore';
 import { io } from 'socket.io-client';
 import { derived } from 'svelte/store';
 
+const development_backend_url = import.meta.env.VITE_DEVELOPMENT_BACKEND_URL;
+const production_backend_url = import.meta.env.VITE_PRODUCTION_BACKEND_URL;
+
 export const spotifyData = persist('spotifyData', {});
 export const userName = persist('userName', '');
 
@@ -10,7 +13,7 @@ export const isAuthenticated = derived(spotifyData, ($spotifyData) => {
 });
 
 export function connect() {
-  const socket = io('http://127.0.0.1:5000');
+  const socket = io(production_backend_url);
 
   socket.on('connect', () => {
     console.log('Socket.IO connection opened');
